@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import MarkdownIt from "markdown-it";
 import { CldImage } from "next-cloudinary";
 import { useSearchParams } from "next/navigation";
@@ -81,7 +81,7 @@ const MySpacePage = ({
   if (status === "unauthenticated") return (window.location.href = "/");
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <div>
         <div className="z-0 grid grid-cols-1 md:grid-cols-3 gap-6 max-[431px]:gap-4 p-4 max-[431px]:p-2">
           {currentPosts?.length > 0 ? (
@@ -207,7 +207,7 @@ const MySpacePage = ({
           )}
         </div>
       </div>
-    </>
+    </Suspense>
   );
 };
 
