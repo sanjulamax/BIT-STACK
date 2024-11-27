@@ -30,7 +30,7 @@ const CreateNote = () => {
         className="w-screen h-screen"
       />
     );
-  if (status === "unauthenticated") return (window.location.href = "/");
+  if (status === "unauthenticated") return;
 
   const handleSave = async () => {
     try {
