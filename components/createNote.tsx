@@ -48,6 +48,7 @@ const CreateNote = () => {
     } catch (error) {
       console.error(error);
     }
+    window.location.href = `/`;
     setMdValue("");
     setTitle("");
     setPicId("");
