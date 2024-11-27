@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import MarkdownIt from "markdown-it";
 import { CldImage } from "next-cloudinary";
 import { useSearchParams, useRouter } from "next/navigation";
