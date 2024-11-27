@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { Writeclient } from "@/sanity/lib/write-client";
@@ -9,18 +9,30 @@ import { CldImage, CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import loading01 from "../public/loading01.webp";
 
-const NoteEditor = (post: any) => {
+interface Post {
+  post: {
+    content: string;
+    title: string;
+    picUrl: string;
+    tag: string;
+    preview: string;
+    _id: string;
+    authorEmail: string;
+  };
+}
+
+const NoteEditor = ({ post }: { post: Post }) => {
   const [mdValue, setMdValue] = useState(post?.post?.content);
   const [title, setTitle] = useState(post?.post?.title);
   const { status, data } = useSession();
   const [picId, setPicId] = useState(post?.post?.picUrl);
-  const [showPic, setShowPic] = useState(true);
+
   const [tags, setTags] = useState(post?.post?.tag);
   const [preview, setPreview] = useState(post?.post?.preview);
   const [sucMsg, setSucMsg] = useState(false);
   const [picUrl, setPicUrl] = useState(post?.post?.picUrl);
   const [showSuc, setShowSuc] = useState(false);
-  console.log(data?.user);
+
   if (status === "loading")
     return (
       <Image
@@ -43,7 +55,7 @@ const NoteEditor = (post: any) => {
 
   const handleSave = async () => {
     window.location.href = `/MySpace`;
-    const updater = await Writeclient.patch(post.post._id)
+    await Writeclient.patch(post.post._id)
       .set({
         title: title,
         preview: preview,
@@ -188,7 +200,7 @@ const NoteEditor = (post: any) => {
                 if (typeof results.info !== "string") {
                   setPicId(results.info.public_id);
                   setShowSuc(true);
-                  console.log(results.info.public_id);
+
                   setPicUrl(results.info.secure_url);
                 }
               }

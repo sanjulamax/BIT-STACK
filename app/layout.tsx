@@ -2,19 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "easymde/dist/easymde.min.css";
-import Navbar from "@/components/navbar";
-import Provider from "@/components/provider";
-import { sanityFetch } from "@/sanity/lib/live";
-import { getNotes } from "@/sanity/lib/queries";
-import Search from "@/components/search";
-import Footer from "@/components/footer";
 
-interface note {
-  _id: string;
-  title: string;
-  content: string;
-  _createdAt: string;
-}
+import Provider from "@/components/provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

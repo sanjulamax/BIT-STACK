@@ -1,6 +1,5 @@
-import { client } from "@/sanity/lib/client";
 import Image from "next/image";
-import { getNotes, getNotesByAuthor } from "@/sanity/lib/queries";
+import { getNotesByAuthor } from "@/sanity/lib/queries";
 import NoteCard from "@/components/NoteCard";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import Search from "@/components/search";
@@ -23,9 +22,9 @@ interface note {
 export default async function UserNotes({
   searchParams,
 }: {
-  searchParams: { userId: string };
+  searchParams: Promise<{ userId: string }>;
 }) {
-  if (!searchParams.userId) {
+  if (!(await searchParams).userId) {
     return (
       <Image
         src={loading01}
@@ -36,10 +35,9 @@ export default async function UserNotes({
       />
     );
   }
-  const { userId } = searchParams;
+  const { userId } = await searchParams;
   const decodedEmail = decodeURIComponent(userId);
-  console.log(searchParams.userId);
-  console.log(decodedEmail);
+
   const { data }: { data: note[] } = await sanityFetch({
     query: getNotesByAuthor,
     params: { authorEmail: `"${decodedEmail}"` },

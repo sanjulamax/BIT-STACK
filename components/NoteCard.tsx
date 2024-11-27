@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import markdownit from "markdown-it";
-import { sliceString } from "sanity";
+
 import Link from "next/link";
 import { CldImage } from "next-cloudinary";
 import Form from "next/form";
@@ -28,9 +28,6 @@ interface Note {
   views: string[];
   likes: string[];
 }
-interface date {
-  date: string;
-}
 
 const NoteCard = ({ notes }: { notes: Note[] }) => {
   const md = markdownit({
@@ -52,8 +49,11 @@ const NoteCard = ({ notes }: { notes: Note[] }) => {
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
-  const [user, setUser] = useState<any>(null);
-  const [postId, setPostId] = useState("");
+  interface SanityUser {
+    _id: string;
+    savedPosts?: string[];
+  }
+  const [user, setUser] = useState<SanityUser[] | null>(null);
 
   React.useEffect(() => {
     const getUser = async () => {
@@ -71,20 +71,22 @@ const NoteCard = ({ notes }: { notes: Note[] }) => {
     }
   }, [data?.user?.email]);
 
-  const savePosts = async (noteId: any) => {
+  const savePosts = async (noteId: string) => {
     if (data?.user?.email != null) {
-      Writeclient.patch(user[0]._id)
-        .setIfMissing({ savedPosts: [] })
-        .append("savedPosts", [noteId])
-        .commit({
-          autoGenerateArrayKeys: true,
-        })
-        .then((res) => {
-          console.log("Post saved successfully");
-        })
-        .catch((err) => {
-          console.error("Error saving post:", err);
-        });
+      if (user && user.length > 0) {
+        Writeclient.patch(user[0]._id)
+          .setIfMissing({ savedPosts: [] })
+          .append("savedPosts", [noteId])
+          .commit({
+            autoGenerateArrayKeys: true,
+          })
+          .then(() => {
+            console.log("");
+          })
+          .catch((err) => {
+            console.error("", err);
+          });
+      }
     }
   };
 
@@ -99,11 +101,8 @@ const NoteCard = ({ notes }: { notes: Note[] }) => {
       )}{" "}
       <div className="z-0 grid grid-cols-1 md:grid-cols-3 gap-6 p-4 ">
         {currentNotes.map((note: Note) => {
-          console.log(note.preview);
-
           if (!(note.preview === null)) {
             notePreview = md.render(note.preview);
-            console.log("Hi I Am Preview");
           }
           const date = new Date(note._createdAt);
           return (

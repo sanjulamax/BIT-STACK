@@ -1,23 +1,23 @@
 import React from "react";
-import { useParams } from "next/navigation";
+
 import { sanityFetch } from "@/sanity/lib/live";
 import { getOneNote } from "@/sanity/lib/queries";
 import NoteEditor from "@/components/noteEditor";
-import Form from "next/form";
+
 import Link from "next/link";
-import Image from "next/image";
-import { getSession } from "next-auth/react";
-import { auth } from "@/auth";
+
 import Footer from "@/components/footer";
 
-const editorPage = async ({ params }: { params: any }) => {
-  const session = await auth();
-  const { mvId } = params;
-  console.log(mvId);
+const editorPage = async ({
+  params,
+}: {
+  params: Promise<{ mvId: string }>;
+}) => {
+  const { mvId } = await params;
+
   if (!mvId) return null;
 
   const post = await sanityFetch({ query: getOneNote, params: { id: mvId } });
-  console.log(post);
 
   return (
     <>

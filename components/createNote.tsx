@@ -14,12 +14,12 @@ const CreateNote = () => {
   const [title, setTitle] = useState("");
   const { status, data } = useSession();
   const [picId, setPicId] = useState("");
-  const [showPic, setShowPic] = useState(false);
+
   const [tags, setTags] = useState("");
   const [preview, setPreview] = useState("");
   const [sucMsg, setSucMsg] = useState(false);
   const [picUrl, setPicUrl] = useState("");
-  console.log(data?.user);
+
   if (status === "loading")
     return (
       <Image
@@ -34,7 +34,7 @@ const CreateNote = () => {
 
   const handleSave = async () => {
     try {
-      const writer = await Writeclient.create({
+      await Writeclient.create({
         _type: "notes",
         title: title,
         preview: preview,
@@ -45,7 +45,6 @@ const CreateNote = () => {
         picUrl: picUrl,
         authorEmail: data?.user?.email,
       });
-      console.log(writer);
     } catch (error) {
       console.error(error);
     }
@@ -182,7 +181,7 @@ const CreateNote = () => {
               if (results.info) {
                 if (typeof results.info !== "string") {
                   setPicId(results.info.public_id);
-                  console.log(results.info.public_id);
+
                   setPicUrl(results.info.secure_url);
                 }
               }

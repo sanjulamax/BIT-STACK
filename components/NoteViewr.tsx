@@ -3,18 +3,13 @@ import { CldImage } from "next-cloudinary";
 import MarkdownIt from "markdown-it";
 import "../app/globals.css";
 
-import { Inter } from "next/font/google";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Form from "next/form";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { client } from "@/sanity/lib/client";
-import { checkViews } from "@/sanity/lib/queries";
+
 import { useEffect, useState } from "react";
 import { Writeclient } from "@/sanity/lib/write-client";
-import { SanityLive } from "@/sanity/lib/live";
 
 interface Note {
   _id: string;
@@ -37,34 +32,33 @@ const NoteViewer = ({
   likes,
 }: {
   note: Note[];
-  chviews: any;
-  likes: any;
+  chviews: string[];
+  likes: string[];
 }) => {
   const { status, data } = useSession();
   const mkd = new MarkdownIt();
   const mkdContent = mkd.render(note[0].content);
   const [viewCount, setViewCount] = useState<number>(0);
   const [viewVerify, setViewVerify] = useState<boolean>(false);
-  const [timer, seTimer] = useState(false);
+  const [timer] = useState(false);
 
   const [likeVerify, setLikeVerify] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
-  console.log(status);
+  console.log(likeCount);
+  console.log(viewCount);
 
   const getViews = () => {
-    console.log(chviews);
     if (data?.user?.email === undefined) {
-      console.log("User not logged in");
-
       return;
     }
-    if (chviews?.includes(data?.user?.email) || viewVerify) {
-      console.log("User has already viewed this note");
+    if (
+      (data?.user?.email && chviews?.includes(data?.user?.email)) ||
+      viewVerify
+    ) {
       setViewCount(chviews?.length / 2 || 0);
-      console.log(viewCount);
+
       setViewVerify(false);
     } else {
-      console.log("User has not viewed this note");
       setViewVerify(true);
 
       localStorage.setItem("viewed", data?.user?.email ?? "");
@@ -75,55 +69,47 @@ const NoteViewer = ({
         .commit({
           autoGenerateArrayKeys: true,
         })
-        .then((res) => {
-          console.log("Post saved successfully");
+        .then(() => {
+          console.log("");
         })
         .catch((err) => {
-          console.error("Error saving post:", err);
+          console.error("", err);
         });
       setViewCount(chviews?.length / 2 || 0);
-      console.log(viewCount);
     }
   };
 
-  console.log(likeVerify);
-
   const autoLikeVerify = () => {
-    if (likes?.includes(data?.user?.email)) {
+    if (data?.user?.email && likes?.includes(data?.user?.email)) {
       setLikeVerify(true);
     }
   };
 
   const getLikes = () => {
     setLikeVerify(true);
-    console.log(likes);
-    if (data?.user?.email === undefined) {
-      console.log("User not logged in");
 
+    if (data?.user?.email === undefined) {
       return;
     }
-    if (likes?.includes(data?.user?.email) || likeVerify) {
-      console.log("User has already liked this note");
+    if (
+      (data?.user?.email && likes?.includes(data?.user?.email)) ||
+      likeVerify
+    ) {
       setLikeCount(likes?.length || 0);
-      console.log(likeCount);
     } else {
-      console.log("User has not viewed this note");
-
       Writeclient.patch(note[0]._id)
         .setIfMissing({ likes: [] })
         .append("likes", [data?.user?.email])
         .commit({
           autoGenerateArrayKeys: true,
         })
-        .then((res) => {
-          console.log("Post saved successfully");
+        .then(() => {
+          console.log("  ");
         })
         .catch((err) => {
-          console.error("Error saving post:", err);
+          console.error("  ", err);
         });
       setViewCount(likes?.length || 0);
-
-      console.log(likeCount);
     }
   };
 
@@ -135,12 +121,11 @@ const NoteViewer = ({
       .commit({
         autoGenerateArrayKeys: true,
       })
-      .then((res) => {
-        console.log("like deleted successfully");
+      .then(() => {
         setLikeVerify(false);
       })
       .catch((err) => {
-        console.error("Error deleting like:", err);
+        console.error("", err);
       });
   };
 
@@ -148,8 +133,6 @@ const NoteViewer = ({
     getViews();
     autoLikeVerify();
   }, [note[0]._id, timer]);
-
-  console.log(likeVerify);
 
   return (
     <>
@@ -163,13 +146,13 @@ const NoteViewer = ({
         }}
       >
         <div className="absolute top-2 left-4">
-          <a
+          <Link
             href="/"
             className="bg-black/30 hover:bg-black/50 text-white px-4 py-2 rounded-full backdrop-blur-md border border-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             <i className="fas fa-home mr-2"></i>
             Home
-          </a>
+          </Link>
         </div>
 
         <div className=" hidden max-[431px]:flex absolute top-0 right-4 ">

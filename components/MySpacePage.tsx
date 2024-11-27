@@ -20,6 +20,8 @@ interface postDetailsInterface {
   preview: string;
   _id: string;
   _createdAt: string;
+  pic?: string; // Add the pic property
+  author: string; // Add the author property
 }
 
 const MySpacePage = ({
@@ -29,7 +31,7 @@ const MySpacePage = ({
   postDetails: postDetailsInterface[];
   savedPosts: postDetailsInterface[];
 }) => {
-  const { status, data } = useSession();
+  const { status } = useSession();
 
   const [savedPostFetched, setSavedPostFetched] = useState<
     postDetailsInterface[]
@@ -83,8 +85,8 @@ const MySpacePage = ({
       <div>
         <div className="z-0 grid grid-cols-1 md:grid-cols-3 gap-6 max-[431px]:gap-4 p-4 max-[431px]:p-2">
           {currentPosts?.length > 0 ? (
-            (console.log(postDetails),
-            currentPosts.map((post: any) => {
+            (console.log("post"),
+            currentPosts.map((post: postDetailsInterface) => {
               const notePreview = mkd.render(post.preview);
               const date = new Date(post._createdAt);
               const deletePost = async () => {

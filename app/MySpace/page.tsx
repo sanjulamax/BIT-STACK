@@ -1,14 +1,12 @@
 import MySpacePage from "@/components/MySpacePage";
-import { client } from "@/sanity/lib/client";
+
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { getNotesByAuthor, getSavedPosts } from "@/sanity/lib/queries";
-import React from "react";
+import React, { Suspense } from "react";
 import { auth } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 import Form from "next/form";
-import { signIn } from "next-auth/react";
-import Footer from "@/components/footer";
 
 const MySpace = async () => {
   const session = await auth();
@@ -47,9 +45,6 @@ const MySpace = async () => {
     ].map((value) => JSON.parse(value as string));
     saved.data[0].savedPosts = uniqueSaved;
   }
-
-  console.log(myPosts);
-  console.log(saved.data[0].savedPosts);
 
   return (
     <>
@@ -137,10 +132,13 @@ const MySpace = async () => {
           </div>
         </div>
         <div className="m-[5%] max-[431px]:m-[2%] mt-2 p-5 min-w-[80%] max-[431px]:min-w-[95%] text-white bg-bg2 bg-cover rounded-xl">
-          <MySpacePage
-            postDetails={myPosts.data}
-            savedPosts={saved.data[0].savedPosts}
-          />
+          <Suspense>
+            {" "}
+            <MySpacePage
+              postDetails={myPosts.data}
+              savedPosts={saved.data[0].savedPosts}
+            />
+          </Suspense>
           <SanityLive />
         </div>
       </div>

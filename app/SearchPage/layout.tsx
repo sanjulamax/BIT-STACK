@@ -1,11 +1,7 @@
-import type { Metadata } from "next";
 import "easymde/dist/easymde.min.css";
-import Provider from "@/components/provider";
-import Search from "@/components/search";
-import { Inter } from "next/font/google";
-import Footer from "@/components/footer";
 
-const inter = Inter({ subsets: ["latin"] });
+import Search from "@/components/search";
+import { Suspense } from "react";
 
 // app/dashboard/layout.tsx
 export default function NotePanelPageLayout({
@@ -16,7 +12,10 @@ export default function NotePanelPageLayout({
   return (
     <>
       <div className="fixed z-10  overflow-hidden">
-        <Search />
+        <Suspense>
+          {" "}
+          <Search />
+        </Suspense>
       </div>
       {children}
     </>

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { Writeclient } from "@/sanity/lib/write-client";
-import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+
 import { getUsers } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import { useEffect } from "react";
@@ -13,8 +13,6 @@ import UpperTabs from "./upperTabs";
 import loading01 from "../public/loading01.webp";
 import Image from "next/image";
 
-import { Inter } from "next/font/google";
-
 import "@fortawesome/fontawesome-free/css/all.css";
 
 interface NavbarProps {
@@ -22,13 +20,10 @@ interface NavbarProps {
 }
 
 const Navbar = ({ searchValue }: NavbarProps) => {
-  console.log(searchValue);
   const [logChecker, setLogChecker] = useState(false);
   const { status, data } = useSession();
 
-  const [search, setSearch] = useState("");
   const [lastRun, setLastRun] = useState("true");
-  const COOLDOWN_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
 
   useEffect(() => {
     const storedLastRun = localStorage.getItem("lastRunTime");
@@ -42,16 +37,14 @@ const Navbar = ({ searchValue }: NavbarProps) => {
 
   const createUser = async () => {
     const user = await client.fetch(getUsers, { uemail: data?.user?.email });
-    console.log(user);
 
     if (!user || user.length === 0) {
       try {
-        const writer = await Writeclient.create({
+        await Writeclient.create({
           _type: "author",
           name: data?.user?.name,
           email: data?.user?.email,
         });
-        console.log(writer);
       } catch (error) {
         console.error(error);
       }

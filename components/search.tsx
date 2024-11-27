@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "./navbar";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const Search = () => {
   const SearchParams = useSearchParams();
@@ -9,7 +10,9 @@ const Search = () => {
 
   return (
     <div className="z-10  ">
-      <Navbar searchValue={search || ""} />;
+      <Suspense fallback={<div>Loading...</div>}>
+        <Navbar searchValue={search || ""} />
+      </Suspense>
     </div>
   );
 };

@@ -1,10 +1,9 @@
-import { client } from "@/sanity/lib/client";
-import Image from "next/image";
-import { checkViews, getNotes } from "@/sanity/lib/queries";
+import { getNotes } from "@/sanity/lib/queries";
 import NoteCard from "@/components/NoteCard";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import Search from "@/components/search";
 import Footer from "@/components/footer";
+import { Suspense } from "react";
 
 interface note {
   _id: string;
@@ -23,12 +22,13 @@ interface note {
 export default async function Home() {
   const { data }: { data: note[] } = await sanityFetch({ query: getNotes });
   const notes: note[] = data;
-  console.log(JSON.stringify(notes));
 
   return (
     <div className="Z-0 h-screen mt-[150px]  max-[431px]:mt-[130px]  font-[family-name:var(--font-geist-sans)]">
       <div className="fixed z-10  overflow-hidden">
-        <Search />
+        <Suspense>
+          <Search />
+        </Suspense>
       </div>
       <div className="max-[431px]:m-0 max-[431px]:p-0  m-[5%] mb-[1%] p-5 min-w-[80%]   text-white bg-bg2 bg-cover rounded-xl ">
         <NoteCard notes={notes} />

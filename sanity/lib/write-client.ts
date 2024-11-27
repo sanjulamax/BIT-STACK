@@ -10,5 +10,3 @@ export const Writeclient = createClient({
   useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
   token
 })
-
-console.log(Writeclient.config())

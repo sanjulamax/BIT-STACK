@@ -1,9 +1,8 @@
-import { client } from "@/sanity/lib/client";
-import Image from "next/image";
-import { getNotes, searchNotes } from "@/sanity/lib/queries";
+import { searchNotes } from "@/sanity/lib/queries";
 import NoteCard from "@/components/NoteCard";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import Footer from "@/components/footer";
+import { Suspense } from "react";
 
 interface note {
   _id: string;
@@ -30,11 +29,14 @@ export default async function searchpage({
     params: { searchValue: `"${paramsz}"` },
   });
   const notes: note[] = data;
-  console.log(JSON.stringify(notes));
+
   return (
     <div className="Z-0 h-screen mt-[200px] max-[431px]:mt-[130px]  font-[family-name:var(--font-geist-sans)]">
       <div className=" max-[431px]:m-0 max-[431px]:p-0  m-[5%] mb-[1%] p-5 min-w-[80%]   text-white bg-bg2 bg-cover rounded-xl">
-        <NoteCard notes={notes} />
+        <Suspense fallback={<div>Loading...</div>}>
+          {" "}
+          <NoteCard notes={notes} />{" "}
+        </Suspense>
         <SanityLive />
       </div>
       <Footer />
