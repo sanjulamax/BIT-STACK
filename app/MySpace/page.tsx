@@ -28,7 +28,7 @@ const MySpace = async () => {
       </>
     );
 
-  const myPosts = await sanityFetch({
+  await sanityFetch({
     query: getNotesByAuthor,
     params: { authorEmail: email },
   });
@@ -134,10 +134,7 @@ const MySpace = async () => {
         <div className="m-[5%] max-[431px]:m-[2%] mt-2 p-5 min-w-[80%] max-[431px]:min-w-[95%] text-white bg-bg2 bg-cover rounded-xl">
           <Suspense>
             {" "}
-            <MySpacePage
-              postDetails={myPosts.data}
-              savedPosts={saved.data[0].savedPosts}
-            />
+            <MySpacePage />
           </Suspense>
           <SanityLive />
         </div>
