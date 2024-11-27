@@ -44,7 +44,13 @@ const MySpace = async () => {
   // Serialize the data
   const serializedPosts = JSON.parse(JSON.stringify(myPosts.data));
   const serializedSavedPosts = JSON.parse(
-    JSON.stringify(saved.data[0]?.savedPosts || [])
+    JSON.stringify(
+      saved.data[0]?.savedPosts
+        ? [...new Set(saved.data[0].savedPosts.map(JSON.stringify))].map(
+            (value) => JSON.parse(value as string)
+          )
+        : []
+    )
   );
 
   // Remove duplicates from saved posts

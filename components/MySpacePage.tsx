@@ -86,6 +86,7 @@ const MySpacePage = ({
                   console.error("Error deleting post:", error);
                 }
               };
+
               return (
                 <div
                   key={post._id}

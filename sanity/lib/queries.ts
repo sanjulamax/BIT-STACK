@@ -132,6 +132,9 @@ export const writeNotes = defineQuery(`
               }
               `)
 
+              export const getUserId = defineQuery(`*[_type=='author' && email == $uemail ]{
+                _id }`)
+
 
                     
     
