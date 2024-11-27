@@ -28,7 +28,7 @@ const MySpace = async () => {
       </>
     );
 
-  await sanityFetch({
+  const myPosts = await sanityFetch({
     query: getNotesByAuthor,
     params: { authorEmail: email },
   });
@@ -37,6 +37,12 @@ const MySpace = async () => {
     query: getSavedPosts,
     params: { email: session?.user?.email },
   });
+
+  // Serialize the data
+  const serializedPosts = JSON.parse(JSON.stringify(myPosts.data));
+  const serializedSavedPosts = JSON.parse(
+    JSON.stringify(saved.data[0]?.savedPosts || [])
+  );
 
   // Remove duplicates from saved posts
   if (saved.data[0]?.savedPosts) {
@@ -134,7 +140,10 @@ const MySpace = async () => {
         <div className="m-[5%] max-[431px]:m-[2%] mt-2 p-5 min-w-[80%] max-[431px]:min-w-[95%] text-white bg-bg2 bg-cover rounded-xl">
           <Suspense>
             {" "}
-            <MySpacePage />
+            <MySpacePage
+              postDetails={serializedPosts}
+              savedPosts={serializedSavedPosts}
+            />
           </Suspense>
           <SanityLive />
         </div>
