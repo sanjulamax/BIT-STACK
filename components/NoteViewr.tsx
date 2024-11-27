@@ -173,7 +173,7 @@ const NoteViewer = ({
             {chviews?.length === undefined ? (
               <span>0 views</span>
             ) : (
-              <span>{`${chviews.length / 2} views`}</span>
+              <span>{`${chviews.length} views`}</span>
             )}
           </div>
         </div>
