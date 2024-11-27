@@ -1,3 +1,4 @@
+import { url } from "inspector";
 import type { Config } from "tailwindcss";
 
 export default {
@@ -12,7 +13,17 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      backgroundImage: {
+        "bg1" : "url('/bg1.jpg')",
+        "bg2" : "url('/gbg2.avif')",
+        "bg3" : "url('/gbg2.avif')",
+      }
+      
     },
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("tailwind-scrollbar"),
+
+  ],
 } satisfies Config;
