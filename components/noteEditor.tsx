@@ -10,27 +10,26 @@ import Image from "next/image";
 import loading01 from "../public/loading01.webp";
 
 interface Post {
-  post: {
-    content: string;
-    title: string;
-    picUrl: string;
-    tag: string;
-    preview: string;
-    _id: string;
-    authorEmail: string;
-  };
+  content: string;
+  title: string;
+  picUrl: string;
+  tag: string;
+  preview: string;
+  _id: string;
+  authorEmail: string;
 }
 
 const NoteEditor = ({ post }: { post: Post }) => {
-  const [mdValue, setMdValue] = useState(post?.post?.content);
-  const [title, setTitle] = useState(post?.post?.title);
+  console.log(post);
+  const [mdValue, setMdValue] = useState(post?.content);
+  const [title, setTitle] = useState(post?.title);
   const { status, data } = useSession();
-  const [picId, setPicId] = useState(post?.post?.picUrl);
+  const [picId, setPicId] = useState(post?.picUrl);
 
-  const [tags, setTags] = useState(post?.post?.tag);
-  const [preview, setPreview] = useState(post?.post?.preview);
+  const [tags, setTags] = useState(post?.tag);
+  const [preview, setPreview] = useState(post?.preview);
   const [sucMsg, setSucMsg] = useState(false);
-  const [picUrl, setPicUrl] = useState(post?.post?.picUrl);
+  const [picUrl, setPicUrl] = useState(post?.picUrl);
   const [showSuc, setShowSuc] = useState(false);
 
   if (status === "loading")
@@ -44,18 +43,18 @@ const NoteEditor = ({ post }: { post: Post }) => {
       />
     );
   if (status === "unauthenticated") return (window.location.href = "/");
-  if (post.post === undefined)
+  if (post === undefined)
     return (
       <p className="text-white h-screen flex justify-center align-middle items-center text-5xl">
         Not Found
       </p>
     );
-  if (post.post.authorEmail !== data?.user?.email)
+  if (post.authorEmail !== data?.user?.email)
     return (window.location.href = "/");
 
   const handleSave = async () => {
     window.location.href = `/MySpace`;
-    await Writeclient.patch(post.post._id)
+    await Writeclient.patch(post._id)
       .set({
         title: title,
         preview: preview,
