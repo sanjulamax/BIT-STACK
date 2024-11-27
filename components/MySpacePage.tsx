@@ -2,7 +2,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import MarkdownIt from "markdown-it";
 import { CldImage } from "next-cloudinary";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Writeclient } from "@/sanity/lib/write-client";
 import { client } from "@/sanity/lib/client";
 import { getOneNote } from "@/sanity/lib/queries";
@@ -32,6 +32,7 @@ const MySpacePage = ({
   savedPosts: postDetailsInterface[];
 }) => {
   const { status } = useSession();
+  const router = useRouter();
 
   const [savedPostFetched, setSavedPostFetched] = useState<
     postDetailsInterface[]
@@ -78,7 +79,11 @@ const MySpacePage = ({
         className="h-screen w-screen flex justify-center align-middle items-center"
       />
     );
-  if (status === "unauthenticated") return (window.location.href = "/");
+
+  if (status === "unauthenticated") {
+    router.push("/");
+    return null;
+  }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
