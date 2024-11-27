@@ -113,9 +113,7 @@ const NoteCard = ({ notes }: { notes: Note[] }) => {
               {" "}
               <div className="absolute -right-4 top-[-2%] transform bg-gray-800 rounded-lg px-3 py-1 flex items-center max-[431px]:text-sm max-[431px]:-right-4  max-[431px]:w-fit max-[431px]:top-[-2%]">
                 <i className="fas fa-eye"></i>
-                <span className="ml-2">
-                  {note?.views?.length / 2 || 0} views
-                </span>
+                <span className="ml-2">{note?.views?.length || 0} views</span>
                 <span className="ml-2">{note?.likes?.length || 0} Likes</span>
               </div>
               <Link href={`/NotPanel/${note._id}`}>
