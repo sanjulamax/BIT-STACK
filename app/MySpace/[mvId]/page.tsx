@@ -3,6 +3,9 @@ import React from "react";
 import { sanityFetch } from "@/sanity/lib/live";
 import { getOneNote } from "@/sanity/lib/queries";
 import NoteEditor from "@/components/noteEditor";
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 import Link from "next/link";
 

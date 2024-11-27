@@ -4,6 +4,9 @@ import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import Search from "@/components/search";
 import Footer from "@/components/footer";
 import { Suspense } from "react";
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 interface note {
   _id: string;

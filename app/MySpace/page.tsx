@@ -7,6 +7,9 @@ import { auth } from "@/auth";
 import Image from "next/image";
 import Link from "next/link";
 import Form from "next/form";
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 const MySpace = async () => {
   const session = await auth();

@@ -2,6 +2,9 @@ import React from "react";
 import CreateNote from "@/components/createNote";
 import Link from "next/link";
 import { auth } from "@/auth";
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 const createNote = async () => {
   const session = await auth();

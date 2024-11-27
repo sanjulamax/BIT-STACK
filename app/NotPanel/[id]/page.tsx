@@ -2,6 +2,9 @@ import Footer from "@/components/footer";
 import NoteViewer from "@/components/NoteViewr";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { checklikes, checkViews, getOneNote } from "@/sanity/lib/queries";
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 import React from "react";
 
