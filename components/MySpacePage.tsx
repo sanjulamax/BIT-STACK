@@ -89,7 +89,7 @@ const MySpacePage = ({
               return (
                 <div
                   key={post._id}
-                  className="bg-white/10 max-[431px]:mb-5 z-0 backdrop-blur-sm rounded-lg p-6 max-[431px]:p-3 shadow-lg border-2 border-transparent hover:border-green-600"
+                  className="bg-white/10 max-[431px]:h-fit max-[431px]:mb-1 z-0 backdrop-blur-sm rounded-lg p-6 max-[431px]:p-3   shadow-lg border-2 border-transparent hover:border-green-600"
                 >
                   <Link href={`/NotPanel/${post._id}`}>
                     <h2 className=" h-[10%] flex text-2xl max-[431px]:text-xl font-bold mb-4 text-white">
