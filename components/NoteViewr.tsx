@@ -55,7 +55,7 @@ const NoteViewer = ({
       (data?.user?.email && chviews?.includes(data?.user?.email)) ||
       viewVerify
     ) {
-      setViewCount(chviews?.length / 2 || 0);
+      setViewCount(chviews?.length || 0);
 
       setViewVerify(false);
     } else {
@@ -75,7 +75,7 @@ const NoteViewer = ({
         .catch((err) => {
           console.error("", err);
         });
-      setViewCount(chviews?.length / 2 || 0);
+      setViewCount(chviews?.length || 0);
     }
   };
 
