@@ -1,4 +1,6 @@
-import { sanityFetch } from "@/sanity/lib/live";
+import MySpacePage from "@/components/MySpacePage";
+
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { getNotesByAuthor, getSavedPosts } from "@/sanity/lib/queries";
 import React, { Suspense } from "react";
 import { auth } from "@/auth";
@@ -30,7 +32,6 @@ const MySpace = async () => {
     query: getNotesByAuthor,
     params: { authorEmail: email },
   });
-  console.log(myPosts);
 
   const saved = await sanityFetch({
     query: getSavedPosts,
@@ -129,9 +130,17 @@ const MySpace = async () => {
               </button>
             </Form>
           </div>
-          <Suspense></Suspense>
         </div>
-        <div className="m-[5%] max-[431px]:m-[2%] mt-2 p-5 min-w-[80%] max-[431px]:min-w-[95%] text-white bg-bg2 bg-cover rounded-xl"></div>
+        <div className="m-[5%] max-[431px]:m-[2%] mt-2 p-5 min-w-[80%] max-[431px]:min-w-[95%] text-white bg-bg2 bg-cover rounded-xl">
+          <Suspense>
+            {" "}
+            <MySpacePage
+              postDetails={myPosts.data}
+              savedPosts={saved.data[0].savedPosts}
+            />
+          </Suspense>
+          <SanityLive />
+        </div>
       </div>
     </>
   );
