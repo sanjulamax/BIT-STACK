@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import { sanityFetch } from "@/sanity/lib/live";
 import { getOneNote } from "@/sanity/lib/queries";
@@ -20,7 +20,7 @@ const editorPage = async ({
   const post = await sanityFetch({ query: getOneNote, params: { id: mvId } });
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <Link href="/MySpace">
         <button className="max-[431px]:hidden absolute top-5 left-5 bg-white text-bl p-3 rounded-full hover:bg-white/20">
           <svg
@@ -44,7 +44,7 @@ const editorPage = async ({
         <NoteEditor post={post.data[0]} />
       </div>
       <Footer />
-    </>
+    </Suspense>
   );
 };
 
