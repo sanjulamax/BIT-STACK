@@ -53,7 +53,6 @@ const NoteEditor = ({ post }: { post: Post }) => {
     return (window.location.href = "/");
 
   const handleSave = async () => {
-    window.location.href = `/MySpace`;
     await Writeclient.patch(post._id)
       .set({
         title: title,
@@ -64,6 +63,7 @@ const NoteEditor = ({ post }: { post: Post }) => {
         picUrl: picUrl,
       })
       .commit();
+    window.location.href = `/MySpace`;
 
     setMdValue("");
     setTitle("");
