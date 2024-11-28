@@ -4,6 +4,7 @@ import "./globals.css";
 import "easymde/dist/easymde.min.css";
 
 import Provider from "@/components/provider";
+import Analytics from "./google-analytics";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,6 +35,7 @@ export default async function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col bg-bg1`}
         >
           <div className="z-0">{children}</div>
+          <Analytics />
         </body>
       </Provider>
     </html>

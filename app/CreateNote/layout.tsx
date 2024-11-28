@@ -2,6 +2,7 @@ import "easymde/dist/easymde.min.css";
 
 import Search from "@/components/search";
 import { Suspense } from "react";
+import Analytics from "../google-analytics";
 
 // app/dashboard/layout.tsx
 export default function CreateNoteLayout({
@@ -18,6 +19,7 @@ export default function CreateNoteLayout({
         </Suspense>
       </div>
       {children}
+      <Analytics />
     </>
   );
 }
